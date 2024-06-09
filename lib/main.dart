@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,7 +11,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
 
       home: HomeApp(),
     );
@@ -29,7 +28,7 @@ class HomeApp extends StatefulWidget {
 class _HomeAppState extends State<HomeApp> {
   // LOGIC
   int milliseconds = 0, seconds = 0, minutes = 0, hours = 0;
-  String digitMilliseconds = "000", digitSeconds = "00", digitMinutes = "00";
+  String digitMilliseconds = "00", digitSeconds = "00", digitMinutes = "00";
   Timer? timer;
   bool started = false;
   List laps = [];
@@ -52,7 +51,7 @@ class _HomeAppState extends State<HomeApp> {
       seconds = 0;
       minutes = 0;
 
-      digitMilliseconds = "000";
+      digitMilliseconds = "00";
       digitSeconds = "00";
       digitMinutes = "00";
 
@@ -72,16 +71,16 @@ class _HomeAppState extends State<HomeApp> {
 
   void start(){
     started = true;
-    timer = Timer.periodic(Duration(milliseconds: 10), (timer) {
+    timer = Timer.periodic(const Duration(milliseconds: 10), (timer) {
       int localMilliseconds = milliseconds + 10;
       int localSeconds = seconds;
       int localMinutes = minutes;
 
-      if (localMilliseconds >= 999) {
+      if (localMilliseconds >= 1000) {
         localSeconds++;
         localMilliseconds = 0;
       }
-      if (localSeconds >= 59) {
+      if (localSeconds >= 60) {
         localMinutes++;
         localSeconds = 0;
       }
@@ -89,7 +88,8 @@ class _HomeAppState extends State<HomeApp> {
         milliseconds = localMilliseconds;
         seconds = localSeconds;
         minutes = localMinutes;
-        digitMilliseconds = (milliseconds >= 100) ? "$milliseconds" : (milliseconds >= 10) ? "0$milliseconds" : "00$milliseconds";
+        digitMilliseconds = (milliseconds ~/ 10).toString().padLeft(2, '0');
+        // ? "$milliseconds" : (milliseconds >= 10) ? "0$milliseconds" : "0$milliseconds";
         digitSeconds = (seconds >= 10) ? "$seconds" : "0$seconds";
         digitMinutes = (minutes >= 10) ? "$minutes" : "0$minutes";
       });
@@ -107,7 +107,7 @@ class _HomeAppState extends State<HomeApp> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Center(
+              const Center(
                 child: Text(
                   "Go Sprint App",
                   style: TextStyle(
@@ -117,13 +117,13 @@ class _HomeAppState extends State<HomeApp> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20.0,
               ),
               Center(
                 child: Text(
                   "$digitMinutes:$digitSeconds.$digitMilliseconds",
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 80.0,
                     fontWeight: FontWeight.w600,
@@ -133,7 +133,7 @@ class _HomeAppState extends State<HomeApp> {
               Container(
                 height: 240.0,
                 decoration: BoxDecoration(
-                  color: Color(0xFF323F68),
+                  color: const Color(0xFF323F68),
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 // add list builder
@@ -147,14 +147,14 @@ class _HomeAppState extends State<HomeApp> {
                         children: [
                           Text(
                             "Lap ${index+1}",
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16.0,
                             ),
                           ),
                           Text(
                             "${laps[index]}",
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16.0,
                             ),
@@ -164,7 +164,7 @@ class _HomeAppState extends State<HomeApp> {
                     );
                   }                  ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10.0,
               ),
               Column(
@@ -178,11 +178,11 @@ class _HomeAppState extends State<HomeApp> {
                           (!started) ? start() : stop();
                         },
                         fillColor: Colors.blue,
-                        shape: CircleBorder(),
-                        padding: EdgeInsets.all(80.0),
+                        shape: const CircleBorder(),
+                        padding: const EdgeInsets.all(80.0),
                         child: Text(
                           (!started) ? "START" : "PAUSE",
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 40.0,
                             fontWeight: FontWeight.w900,
@@ -191,7 +191,7 @@ class _HomeAppState extends State<HomeApp> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 40.0
                   ),
                   Row(
@@ -205,13 +205,13 @@ class _HomeAppState extends State<HomeApp> {
                           shape: const StadiumBorder(
                             side: BorderSide(color: Colors.blue),
                           ),
-                          child: Text(
+                          child: const Text(
                             "Reset",
                             style: TextStyle(color: Colors.white),
                           ),
                         ), 
                       ),
-                      SizedBox(width: 20.0),
+                      const SizedBox(width: 20.0),
                       Expanded(
                         child: RawMaterialButton(
                           onPressed: () {
@@ -220,7 +220,7 @@ class _HomeAppState extends State<HomeApp> {
                           shape: const StadiumBorder(
                             side: BorderSide(color: Colors.blue),
                           ),
-                          child: Text(
+                          child: const Text(
                             "Add Lap",
                             style: TextStyle(color: Colors.white),
                           ),
